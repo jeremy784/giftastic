@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>GIFTASTIC!!!!!</title>
+</head>
+
+<body>
+    <button data-drink="beer">Beer</button>
+    <button data-drink="whiskey">Whiskey</button>
+    <button data-drink="vodka">vodka</button>
+    <button data-drink="tequila">Tequila</button>
+    <button data-drink="rum">Rum</button>
+    <button data-drink="gin">Gin</button>
+    <div id="gifs-appear-here">
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+        $("button").on("click", function () {
+            var drink = $(this).attr("data-drink");
+            var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + drink + "&api_key=o0mNHAy0Hks61Cb1guhzVXtlXgrYqtSq&limit=10";
+
+            $.ajax({
+                url: queryURL,
+                method: "GET"
+            })
+                .then(function (response) {
+                    console.log(queryURL);
+                    //console.log(response);
+                    let results = response.data;
+
+                    for (var i = 0; i < results.length; i++) {
+
+                        var drinkDiv = $("<div>");
+
+                        var p = $("<p>").text("Rating: " + results[i].rating);
+                        var drinkImage = $("<img>").attr("src", results[i].images.fixed_height.url)
+
+                        drinkDiv.append(p)
+                        drinkDiv.append(drinkImage)
+                        $("#gifs-appear-here ").prepend(drinkDiv);
+                    }
+                })
+                
+        })
+</script>
+</body >
+</html >
