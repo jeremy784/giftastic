@@ -1,14 +1,14 @@
-// GIFTASTIC! 
+
 var drinks = ["Beer", "Whiskey", "Vodka", "Tequila", "Rum", "Gin"];
 
 var button;
 var newDrink = ""; // new topic that will be added via the input field 
 
-// function to create new buttons from the topics array
+// create buttons from drinks array
 var buttonGenerator = function (){
-	// the previous div elements are emptied 
+	// empty out previous emelements
 	 $("#buttonArea").empty();
-	// loops through the array and creates buttons
+	// loops through the array to create the buttons
 	for(i = 0; i < drinks.length; i++) {
 		button = $("<button type=" + "button" + ">" + drinks[i] + "</button>").addClass("btn btn-warning").attr("data",drinks[i]);
 		$("#buttonArea").append(button);
@@ -16,10 +16,10 @@ var buttonGenerator = function (){
 }
 
 
-// The user clicks on a generated orange button, which generates 10 static, non-animated gif images from the GIPHY API and places them on the page. 
+// click button to create 10 images
 $("#buttonArea").on("click", ".btn", function(){
         
-var drink = $(this).attr("data-drink");
+var drinks = $(this).attr("data-drink");
   		var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + drinks + "&api_key=o0mNHAy0Hks61Cb1guhzVXtlXgrYqtSq&limit=10";
 
 
@@ -42,10 +42,10 @@ var drink = $(this).attr("data-drink");
 	 			p.text(results[i].rating);
 	 			var p = $("<p>").text("Rating: " + results[i].rating);
 
-	 			// add a CSS style to create colored borders around the gifs
+	 			// border around gifs
 	 			var drinkImage = $("<img>").addClass("orangeBorder");
 
-	 			// add states of animate and still which will be toggled 
+	 			// animate and still states for gifs 
 	 			drinkImage.attr("src", results[i].images.fixed_height_still.url);
 	 			drinkImage.attr("data-still", results[i].images.fixed_height_still.url);
 	 			drinkImage.attr("data-animate", results[i].images.fixed_height.url)
@@ -54,23 +54,23 @@ var drink = $(this).attr("data-drink");
 	 			
 	 			// image is appended to the div
 	 			drinkDiv.append(drinkImage);
-	 			// rating is appended to the div below the gif
+	 			// rating is appended below gifs
 	 			drinkDiv.append(p); 			
-	 			// new images will be placed at the beginning (top) of the containing gif area
+	 			// put new images at the top of the gif area
 	 			$("#gifArea").prepend(drinkDiv);
  			}
   		})
   })
 
 
-// When the user clicks one of the still GIPHY images, and it animates. When the user clicks the gif again, it stops playing.
+// click to animate the gif
 $("#gifArea").on("click", ".gif", function(event){
 	event.preventDefault();
 	
-	// gets the current state of the clicked gif 
+	// gets the state of the gif 
 	var state = $(this).attr("data-state");
 	
-	// according to the current state gifs toggle between animate and still 
+	// toggle based on the state of the gif 
 	if (state === "still") {
     $(this).attr("src", $(this).attr("data-animate"));
     $(this).attr("data-state", "animate");
@@ -82,16 +82,16 @@ $("#gifArea").on("click", ".gif", function(event){
 })
    
 
-// The form takes the value from the input box and adds it into the topics  array. The buttonGenerator function is called that takes each topic in the array remakes the buttons on the page.
+// Takes the value and generates a button.
 
 
 $(".submit").on("click", function(event){
 	event.preventDefault();
 
 	console.log("submit");
-	// sets inputted value to newTopic 
+	// sets inputted value to newDrink 
 	newDrink = $("#drink-input").val();
-	// new topic is added to the topics array 
+	// new drink is added to the drinks array 
 	drinks.push(newDrink);
 	console.log(drinks);
 	// call the function that creates the new button
